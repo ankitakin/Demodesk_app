@@ -112,7 +112,7 @@ export default {
       this.form.subject = null
       this.form.emailText = null
     },
-    sendMail() {
+    sendEmail() {
       this.axios.post('api/users/send_mail', {
         to: ['ankita.kinnerkar@gmail.com'],
         subject: 'Sending Email using Node.js',
