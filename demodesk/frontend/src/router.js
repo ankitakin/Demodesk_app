@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import ExampleComponent from '@/components/ExampleComponent.vue'
+import MainScreen from '@/components/MainScreen.vue'
+import EmailForm from '@/components/EmailForm.vue'
 
 const routes = [
-  {path: '*', component: ExampleComponent}
+  {path: '*', component: MainScreen},
+  {path: '/email', component: EmailForm}
 ]
 
 Vue.use(VueRouter)
