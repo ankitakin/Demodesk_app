@@ -112,6 +112,28 @@ export default {
       this.form.subject = null
       this.form.emailText = null
     },
+    sendMail() {
+      this.axios.post('api/users/send_mail', {
+        to: ['ankita.kinnerkar@gmail.com'],
+        subject: 'Sending Email using Node.js',
+        content: 'That was easy!',
+        htmlcontent: false,
+      }).then(response => {
+        console.log(response)
+      }, error => {
+        console.log(error);
+      });
+    },
+    receiveEmail(){
+      this.axios.get('api/users/get_mails').then(response=>{
+        console.log(response)
+        this.emails = response.data;
+        console.log(this.emails);
+      },error => {
+        console.log(error);
+      });
+    },
+
     // sendEmail () {
     //   this.sending = true
     //   sendEmail(this.form).then(() => {
@@ -125,12 +147,12 @@ export default {
     //     this.errorMessage = 'Error occured while sending email. Please try again!'
     //   })
     // },
-    // validateEmailForm () {
-    //   this.$v.$touch()
-    //   if (!this.$v.$invalid) {
-    //     this.sendEmail()
-    //   }
-    // }
+    validateEmailForm () {
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        this.sendEmail()
+      }
+    }
   }
 }
 </script>

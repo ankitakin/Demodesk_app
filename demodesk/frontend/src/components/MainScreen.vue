@@ -11,10 +11,12 @@
 
     <h1>Demodesk Mail{{capitalize(selectedScreen)}}</h1>
 
-    <BulkActionBar :emails="filteredEmails"
-                   :selectedScreen="selectedScreen" />
+    <BulkActionBar/>
+    <!--<BulkActionBar :emails="filteredEmails"-->
+                   <!--:selectedScreen="selectedScreen" />-->
 
-    <MailTable :emails="filteredEmails" />
+    <!--<MailTable :emails="filteredEmails" />-->
+    <MailTable/>
   </div>
 </template>
 
@@ -29,7 +31,7 @@
       let emails = response.data;
       let selectedScreen = 'inbox';
       return {
-        emails,
+        emails: [],
         selectedScreen,
         emailSelection: useEmailSelection()
       }
@@ -49,17 +51,17 @@
       }
     },
     computed: {
-      sortedEmails(){
-        return this.emails.sort((e1, e2) => {
-          return e1.sentAt < e2.sentAt ? 1 : -1
-        })
-      },
-      unarchivedEmails(){
-        return this.sortedEmails.filter(e => !e.archived)
-      },
-      archivedEmails(){
-        return this.sortedEmails.filter(e => e.archived)
-      },
+      // sortedEmails(){
+      //   return this.emails.sort((e1, e2) => {
+      //     return e1.sentAt < e2.sentAt ? 1 : -1
+      //   })
+      // },
+      // unarchivedEmails(){
+      //   return this.sortedEmails.filter(e => !e.archived)
+      // },
+      // archivedEmails(){
+      //   return this.sortedEmails.filter(e => e.archived)
+      // },
       filteredEmails(){
         let filters = {
           inbox: this.unarchivedEmails,
@@ -67,7 +69,15 @@
         }
         return filters[this.selectedScreen]
       }
+    },
+        created() {
+      //TODO on submit of compose
+      this.sendMail();
+
+      //This must keep happening
+      //setInterval(this.receiveEmail(), 3000);
     }
+
   }
 </script>
 
