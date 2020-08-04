@@ -22,7 +22,8 @@ import './registerServiceWorker'
 Vue.config.productionTip = false
 
 
-
+Vue.use(VueMaterial)
+Vue.use(Vuelidate)
 
 
 
