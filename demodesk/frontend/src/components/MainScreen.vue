@@ -29,10 +29,11 @@
   import { useEmailSelection } from './composition/useEmailSelection';
   export default {
     async setup(){
-      let response = await axios.get('http://localhost:8000/emails');
-      let emails = response.data;
+      await new Promise(resolve => setTimeout(resolve, 3000))
+      //let emails = response.data;
       let selectedScreen = 'inbox';
       return {
+        format,
         "emails": [
           {
             "id": 1,

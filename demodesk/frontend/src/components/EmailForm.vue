@@ -54,6 +54,7 @@
 </template>
 
 <script>
+  import axios from 'axios';
 import { validationMixin } from 'vuelidate'
 import {emailList} from './validators/emailList'
 // import {sendEmail} from '../services/sendEmail'
@@ -64,6 +65,7 @@ export default {
   name: 'Email Form',
   mixins: [validationMixin],
   data: () => ({
+    axios,
     form: {
       toEmailAddresses: null,
       ccEmailAddresses: null,
