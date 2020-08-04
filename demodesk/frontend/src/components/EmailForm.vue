@@ -124,15 +124,7 @@ export default {
         console.log(error);
       });
     },
-    receiveEmail(){
-      this.axios.get('api/users/get_mails').then(response=>{
-        console.log(response)
-        this.emails = response.data;
-        console.log(this.emails);
-      },error => {
-        console.log(error);
-      });
-    },
+
 
     // sendEmail () {
     //   this.sending = true

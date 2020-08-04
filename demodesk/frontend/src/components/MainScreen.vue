@@ -107,13 +107,20 @@
           archive: this.archivedEmails
         }
         return filters[this.selectedScreen]
-      }
+      },
+      receiveEmail(){
+      this.axios.get('api/users/get_mails').then(response=>{
+        console.log(response)
+        //this.emails = response.data;
+        //console.log(this.emails);
+      },error => {
+        console.log(error);
+      });
+    },
     },
         created() {
       //TODO on submit of compose
-      this.sendMail();
-
-      //This must keep happening
+      //Polling for receieved emails
       //setInterval(this.receiveEmail(), 3000);
     }
 
