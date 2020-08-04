@@ -2,12 +2,6 @@ demodesk
 ========
 
 Full stack application with vue.js and Django
-
-<a href="https://github.com/vchaptsev/cookiecutter-django-vue">
-    <img src="https://img.shields.io/badge/built%20with-Cookiecutter%20Django%20Vue-blue.svg" />
-</a>
-
-
 ## Development
 
 Install [Docker](https://docs.docker.com/install/) and [Docker-Compose](https://docs.docker.com/compose/). Start your virtual machines with the following shell command:
