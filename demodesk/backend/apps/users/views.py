@@ -14,10 +14,21 @@ from apps.users.models import User
 from apps.users.serializers import UserSerializer, UserWriteSerializer
 
 
+import logging
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from apps.users.models import User
+from config import settings
+from inbound_email.signals import email_received
+import random
+import uuid
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = []
+    userEmail = []
 
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
@@ -102,3 +113,52 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+    """Sends an email to the given email address"""
+    @action(methods=['POST'], detail=False)
+    def send_mail(self, request, format=None):
+        sender = "trial.ankita@gmail.com"
+        receiver = request.query_params.get('to', None)
+        subject = request.query_params.get('subject', None)
+        content = request.query_params.get('content', None)
+        if request.query_params.get('htmlContent', None):
+            html_content = render_to_string(content, data)
+        if sender & receiver:
+            msg = EmailMultiAlternatives(
+                subject,
+                content,
+                sender,
+                receiver
+            )
+            msg.attach_alternative(html_content, "text/html")
+            try:
+                msg.send()
+                print("sent")
+            except Exception as ex:
+                logging.error(ex)
+                print("error")
+            logging.info('Sent usage report to ankita.kinnerkar@gmail.com')
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def on_email_received(sender, **kwargs):
+        """Handle inbound emails."""
+        email = kwargs.pop('email')
+        request = kwargs.pop('request')
+
+        userEmail.append(email)
+        logging.debug(
+            "New email received from %s: %s",
+            email.from_email,
+            email.subject
+        )
+
+    email_received.connect(on_email_received, dispatch_uid=uuid.uuid1(random.randint(0, 281474976710655)))
+
+    @action(methods=['GET'], detail=False)
+    def get_mails(self, request, format=None):
+        return Response(
+            data={userEmail},
+            status=status.HTTP_200_OK,
+        )

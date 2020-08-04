@@ -41,9 +41,6 @@ typed-ast==1.4.1
 urllib3==1.25.8
 wcwidth==0.1.9
 Werkzeug==1.0.1
-
-
 djangorestframework==3.11.0
-
-
+django-inbound-email==0.13
 

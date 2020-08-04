@@ -1,12 +1,3 @@
-"""
-Django settings for demodesk project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/dev/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/dev/ref/settings/
-"""
 import environ
 from datetime import timedelta
 
@@ -27,9 +18,9 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    
+
     'rest_framework',
-    
+
     'django_extensions',
 ]
 
@@ -63,9 +54,13 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 DOMAIN = env.str('DOMAIN')
 
 # EMAIL CONFIGURATION
-# ------------------------------------------------------------------------------
-EMAIL_PORT = env.int('EMAIL_PORT', default='1025')
-EMAIL_HOST = env.str('EMAIL_HOST', default='mailhog')
+# ------------------------------------------------------------------------------)
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'trial.ankita@gmail.com'
+EMAIL_HOST_PASSWORD = 'Cde34rfv'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'trial.ankita@gmail.com'
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -197,7 +192,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # AUTHENTICATION CONFIGURATION
 # ------------------------------------------------------------------------------
 AUTHENTICATION_BACKENDS = [
-    
+
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -223,7 +218,3 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FileUploadParser'
     ]
 }
-
-
-
-
