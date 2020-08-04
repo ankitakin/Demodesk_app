@@ -1,38 +1,39 @@
 <template>
   <div id="container">
     <table class="mail-table">
-    <tbody>
+      <tbody>
       <tr v-for="email in unarchivedEmails"
           :key="email.id"
           :class="['clickable', email.read ? 'read' : '']"
           @click="email.read = true">
         <td>
-          <input type="checkbox" />
+          <input type="checkbox"/>
         </td>
         <td>{{email.from}}</td>
         <td>
           <p><strong>{{email.subject}}</strong> - {{email.body}}</p>
         </td>
         <td class="date">{{format(new Date(email.sentAt), 'MMM do yyyy')}}</td>
-        <td><button @click="email.archived = true">Archive</button></td>
+        <td>
+          <button @click="email.archived = true">Archive</button>
+        </td>
       </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
-  import { format } from 'date-fns';
+  import {format} from 'date-fns';
   import axios from 'axios';
   import MailTable from '@/components/MailTable.vue';
   import BulkActionBar from '@/components/BulkActionBar.vue';
-  import { useEmailSelection } from './composition/useEmailSelection';
+  import {useEmailSelection} from './composition/useEmailSelection';
+
   export default {
-    async setup(){
-      await new Promise(resolve => setTimeout(resolve, 3000))
-      //let emails = response.data;
-      let selectedScreen = 'inbox';
+    data() {
       return {
+        selectedScreen:'inbox',
         format,
         "emails": [
           {
@@ -86,40 +87,42 @@
         this.emailSelection.clear();
       },
       capitalize(word) {
-        if(!word || !word.length){ return; }
+        if (!word || !word.length) {
+          return;
+        }
         return word[0].toUpperCase() + word.slice(1)
       }
     },
     computed: {
-      sortedEmails(){
+      sortedEmails() {
         return this.emails.sort((e1, e2) => {
           return e1.sentAt < e2.sentAt ? 1 : -1
         })
       },
-      unarchivedEmails(){
+      unarchivedEmails() {
         return this.sortedEmails.filter(e => !e.archived)
       },
-      archivedEmails(){
+      archivedEmails() {
         return this.sortedEmails.filter(e => e.archived)
       },
-      filteredEmails(){
+      filteredEmails() {
         let filters = {
           inbox: this.unarchivedEmails,
           archive: this.archivedEmails
         }
         return filters[this.selectedScreen]
       },
-      receiveEmail(){
-      this.axios.get('api/users/get_mails').then(response=>{
-        console.log(response)
-        //this.emails = response.data;
-        //console.log(this.emails);
-      },error => {
-        console.log(error);
-      });
+      receiveEmail() {
+        this.axios.get('api/users/get_mails').then(response => {
+          console.log(response)
+          //this.emails = response.data;
+          //console.log(this.emails);
+        }, error => {
+          console.log(error);
+        });
+      },
     },
-    },
-        created() {
+    created() {
       //TODO on submit of compose
       //Polling for receieved emails
       //setInterval(this.receiveEmail(), 3000);
