@@ -1,5 +1,5 @@
 <template>
-  <div id="conatiner">
+  <div id="container">
     <h1>Demodesk Inbox</h1>
     <button @click="$router.push('email')">Compose</button>
 
@@ -207,4 +207,3 @@ input[type='checkbox']:checked {
   margin-left: 3px;
 }
 </style>
-© 2020 GitHub, Inc.

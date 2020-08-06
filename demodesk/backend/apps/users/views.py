@@ -138,7 +138,7 @@ class UserViewSet(viewsets.ModelViewSet):
             except Exception as ex:
                 logging.error(ex)
                 print("error")
-            logging.info('Sent usage report to ankita.kinnerkar@gmail.com')
+            logging.info('Sent Mail to ankita.kinnerkar@gmail.com')
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 

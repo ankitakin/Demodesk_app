@@ -16,7 +16,6 @@
 <script>
   import { format } from 'date-fns';
   import marked from 'marked';
-  // import { useKeydown } from './composition/useKeydown';
   export default {
     setup({changeEmail}){
       let toggleArchive = () => changeEmail({toggleArchive: true, save: true, closeModal: true})
@@ -25,14 +24,6 @@
       let goOlder = () => changeEmail({indexChange: 1})
       let goNewerAndArchive = () => changeEmail({indexChange: -1, toggleArchive: true})
       let goOlderAndArchive = () => changeEmail({indexChange: 1, toggleArchive: true})
-      // useKeydown([
-      //   {key: 'e', fn: toggleArchive},
-      //   {key: 'r', fn: toggleRead},
-      //   {key: 'k', fn: goNewer},
-      //   {key: 'j', fn: goOlder},
-      //   {key: '[', fn: goNewerAndArchive},
-      //   {key: ']', fn: goOlderAndArchive}
-      // ])
       return {
         format,
         marked,
