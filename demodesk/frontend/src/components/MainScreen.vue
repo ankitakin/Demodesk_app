@@ -207,4 +207,3 @@ input[type='checkbox']:checked {
   margin-left: 3px;
 }
 </style>
-© 2020 GitHub, Inc.
