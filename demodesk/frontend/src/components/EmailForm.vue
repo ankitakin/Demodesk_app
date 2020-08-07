@@ -16,18 +16,6 @@
             <span class="md-error" v-if="$v.form.toEmailAddresses.required && !$v.form.toEmailAddresses.emailListValidator">Email address should be comma separated in valid format e.g john@example.com, doe@example.com</span>
           </md-field>
 
-          <md-field :class="getValidationClass('ccEmailAddresses')">
-            <label for="cc-email-addresses">Cc:</label>
-            <md-input name="cc-email-addresses" id="cc-email-addresses" autocomplete="cc-email-addresses" v-model="form.ccEmailAddresses" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.ccEmailAddresses.emailListValidator">Email address should be comma separated in valid format e.g john@example.com, doe@example.com</span>
-          </md-field>
-
-          <md-field :class="getValidationClass('bccEmailAddresses')">
-            <label for="bcc-email-addresses">Bcc:</label>
-            <md-input name="bcc-email-addresses" id="bcc-email-addresses" autocomplete="bcc-email-addresses" v-model="form.bccEmailAddresses" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.bccEmailAddresses.emailListValidator">Email address should be comma separated in valid format e.g john@example.com, doe@example.com</span>
-          </md-field>
-
           <md-field :class="getValidationClass('subject')">
             <label for="subject">Subject:</label>
             <md-input name="subject" id="subject" autocomplete="subject" v-model="form.subject" :disabled="sending" />
@@ -57,7 +45,6 @@
   import axios from 'axios';
 import { validationMixin } from 'vuelidate'
 import {emailList} from './validators/emailList'
-// import {sendEmail} from '../services/sendEmail'
 import {
   required
 } from 'vuelidate/lib/validators'
@@ -68,8 +55,6 @@ export default {
     axios,
     form: {
       toEmailAddresses: null,
-      ccEmailAddresses: null,
-      bccEmailAddresses: null,
       subject: null,
       emailText: null
     },
@@ -81,12 +66,6 @@ export default {
     form: {
       toEmailAddresses: {
         required,
-        emailList
-      },
-      ccEmailAddresses: {
-        emailList
-      },
-      bccEmailAddresses: {
         emailList
       },
       subject: {
@@ -109,45 +88,27 @@ export default {
     clearForm () {
       this.$v.$reset()
       this.form.toEmailAddresses = null
-      this.form.ccEmailAddresses = null
-      this.form.bccEmailAddresses = null
       this.form.subject = null
       this.form.emailText = null
     },
     sendEmail() {
       this.axios.post('api/users/send_mail', {
-        to: ['ankita.kinnerkar@gmail.com'],
-        subject: 'Sending Email using Node.js',
-        content: 'That was easy!',
-        htmlcontent: false,
+        to: this.form.toEmailAddresses ,
+        subject: this.form.subject,
+        content: this.form.emailText
       }).then(response => {
         console.log(response)
       }, error => {
         console.log(error);
       });
     },
-
-
-    // sendEmail () {
-    //   this.sending = true
-    //   sendEmail(this.form).then(() => {
-    //     this.emailSent = true
-    //     this.sending = false
-    //     this.errorMessage = null
-    //     this.clearForm()
-    //   }).catch(() => {
-    //     this.emailSent = false
-    //     this.sending = false
-    //     this.errorMessage = 'Error occured while sending email. Please try again!'
-    //   })
-    // },
     validateEmailForm () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
         this.sendEmail()
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

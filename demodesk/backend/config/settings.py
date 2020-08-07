@@ -22,6 +22,8 @@ THIRD_PARTY_APPS = [
     'rest_framework',
 
     'django_extensions',
+
+    'inbound_email'
 ]
 
 LOCAL_APPS = [
@@ -58,7 +60,7 @@ DOMAIN = env.str('DOMAIN')
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'trial.ankita@gmail.com'
-EMAIL_HOST_PASSWORD = 'Cde34rfv'
+EMAIL_HOST_PASSWORD = 'Xsw23edc123!'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'trial.ankita@gmail.com'
 
