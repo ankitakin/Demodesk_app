@@ -8,11 +8,7 @@
 </template>
 
 <script>
-  import { useKeydown } from './composition/useKeyDown';
   export default {
-    setup({closeModal}){
-      useKeydown([{key: 'Escape', fn: closeModal}])
-    },
     props: {
       closeModal: {
         type: Function,

@@ -118,27 +118,27 @@ class UserViewSet(viewsets.ModelViewSet):
     """Sends an email to the given email address"""
     @action(methods=['POST'], detail=False)
     def send_mail(self, request, format=None):
+        print(request.data)
         sender = "trial.ankita@gmail.com"
         receiver = request.query_params.get('to', None)
         subject = request.query_params.get('subject', None)
         content = request.query_params.get('content', None)
-        if request.query_params.get('htmlContent', None):
-            html_content = render_to_string(content, data)
-        if sender & receiver:
+        #html_content = strip_tags(content)
+        if sender :
             msg = EmailMultiAlternatives(
                 subject,
                 content,
                 sender,
                 receiver
             )
-            msg.attach_alternative(html_content, "text/html")
+           # msg.attach_alternative(html_content, "text/html")
             try:
                 msg.send()
                 print("sent")
             except Exception as ex:
                 logging.error(ex)
                 print("error")
-            logging.info('Sent usage report to ankita.kinnerkar@gmail.com')
+            logging.info('Sent Mail to ankita.kinnerkar@gmail.com')
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 

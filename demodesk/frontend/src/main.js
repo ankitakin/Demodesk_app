@@ -12,10 +12,6 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 
-
-
-
-
 import App from '@/App.vue'
 import './registerServiceWorker'
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="conatiner">
+  <div id="container">
     <h1>Demodesk Inbox</h1>
     <button @click="$router.push('email')">Compose</button>
 
@@ -14,7 +14,7 @@
         </td>
         <td>{{email.from}}</td>
         <td>
-          <p><strong>{{email.subject}}</strong> - {{email.body}}</p>
+          <p @click="openEmail(email)"><strong>{{email.subject}}</strong> - {{email.body}}</p>
         </td>
         <td class="date">{{format(new Date(email.sentAt), 'MMM do yyyy')}}</td>
         <td>
@@ -23,16 +23,24 @@
       </tr>
       </tbody>
     </table>
+
+    <ModalView v-if="openedEmail" :closeModal="() => { openedEmail = null; }">
+    <MailView :email="openedEmail"
+              :changeEmail="(args) => changeEmail(openedEmail, args)" />
+    </ModalView>
   </div>
 </template>
 
 <script>
 import { format } from 'date-fns';
+import ModalView from '@/components/ModalView.vue';
+import MailView from '@/components/MailView.vue';
 export default {
   name: 'App',
   data(){
     return {
       format,
+      openedEmail: null,
       "emails": [
         {
           "id": 1,
@@ -73,6 +81,10 @@ export default {
       ]
     }
   },
+  components: {
+      ModalView,
+      MailView
+    },
   computed: {
     sortedEmails() {
       return this.emails.sort((e1, e2) => {
@@ -82,7 +94,35 @@ export default {
     unarchivedEmails() {
       return this.sortedEmails.filter(e => !e.archived)
     }
-  }
+  },
+  methods: {
+      openEmail(email){
+        this.openedEmail = email;
+        if(email) {
+          email.read = true
+          //axios.put(`http://localhost:3000/emails/${email.id}`, email)
+        }
+      },
+      changeEmail(email, {indexChange,closeModal}) {
+        if(closeModal) { this.openedEmail = null; return null; }
+        if(indexChange) {
+          let index = this.emails.findIndex(e => e == email);
+          this.openEmail(this.emails[index + indexChange])
+        }
+      },
+      receiveEmail(){
+        this.axios.get('api/users/get_mails').then(response=>{
+        console.log(response)
+        this.emails = response.data;
+        console.log(this.emails);},error => {
+        console.log(error);});
+        },
+    },
+  created() {
+      //This must keep happening
+      //Polling for receieved emails
+      //setInterval(this.receiveEmail(), 3000);
+    }
 };
 </script>
 
